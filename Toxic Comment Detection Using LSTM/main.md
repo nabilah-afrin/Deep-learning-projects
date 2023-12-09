@@ -1,0 +1,1 @@
+The project focuses on learning several NLP techniques for example, Tokenizing, Stemming, Embedding to classify toxic online comments on social media. LSTM was developed to classify the comments, 2 other algorthims were also compared with LSTM in order to showcase the success rate of LSTM in NLP application.

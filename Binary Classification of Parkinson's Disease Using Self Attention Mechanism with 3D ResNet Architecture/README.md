@@ -8,9 +8,15 @@ This repository contains the code and documentation for a project focused on the
 The primary focus of the project was to investigate the performance of ResNet architectures on high-resolution medical images with limited instances. Specifically, ResNet-18 and ResNet-34 were employed to explore how well these architectures could handle the unique challenges posed by small datasets with intricate imaging.
 
 ### Residual Neural Network (ResNet) Architecture
+
+The choice of ResNet architectures was driven by their ability to handle deep networks effectively, making them suitable for the complexity of high-resolution medical images.
+
 **ResNet-18 and ResNet-34:**  Both architectures demonstrated effectiveness in extracting features from high-resolution medical images without suffering from vanishing gradient descent. The models showcased promising results in terms of classification accuracy and robustness.
 
 **ResNet-101:** This deeper architecture exhibited instability in the results, indicating that a more extensive network did not necessarily lead to improved performance with the given dataset.
 ### Attention Mechanism Integration
+The integration of attention mechanisms was motivated by the need to improve the model's focus on relevant features, especially in the presence of intricate details within the images.
+
+The addition of attention mechanism aimed to improve the model's ability to focus on relevant features and mitigate potential information loss in deeper layers.
 # Conclusion
 The experimentation with ResNet architectures on high-resolution medical images yielded valuable insights into their applicability for Parkinson's Disease classification. The use of attention mechanisms contributed to refining the model's attention and feature extraction, potentially improving its diagnostic capabilities.

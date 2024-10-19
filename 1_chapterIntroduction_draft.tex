@@ -1,0 +1,340 @@
+\documentclass[graybox, envcountchap, twocolumn]{styles/svmult}
+\usepackage{fontspec}  % For custom fonts
+\usepackage{polyglossia}  % For language support
+
+% Set English and Bangla as languages
+\setdefaultlanguage{english}
+\setotherlanguage{bengali}
+
+% Set fonts for English and Bangla
+\newfontfamily\bengalifont[Script=Bengali]{Kalpurush}  % You can change 'Kalpurush' to another Bangla font like 'SolaimanLipi' or 'Noto Sans Bengali'
+
+\usepackage{amssymb,amsmath,bm}
+\DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
+\usepackage{textcomp}
+\newcommand\abs[1]{\left\lvert#1\right\rvert}
+\usepackage{longtable}
+\usepackage{algorithm2e}
+\usepackage{tocbibind}
+\usepackage[toc]{multitoc}
+\renewcommand{\bibname}{References}
+\usepackage{mathptmx}  % Times Roman as basic font
+\usepackage{helvet}    % Helvetica as sans-serif font
+\usepackage{courier}   % Courier as typewriter font
+
+\usepackage{makeidx}   % Index generation
+\usepackage{graphicx}  % Standard LaTeX graphics tool
+\usepackage[justification=centering]{caption}
+\usepackage{subfig}
+\usepackage{multicol}  % For multi-column index
+\usepackage{multirow}
+\usepackage[bottom]{footmisc}  % Footnotes at the bottom
+\usepackage[bookmarksnumbered=true,
+            bookmarksopen=true,
+            colorlinks=true,
+            linkcolor=blue,
+            anchorcolor=blue,
+            citecolor=blue]{hyperref}
+
+\graphicspath{{figures/}}
+
+\makeindex  % For subject index generation
+
+\begin{document}
+
+\section{Introduction}
+
+\subsection{Types of Machine Learning}
+% Here are the types of machine learning and their explanations in Bangla:
+
+\begin{itemize}
+    \item \textbf{Supervised Learning}
+    \begin{itemize}
+        \item \textbf{Classification}: {\bengalifont ডেটাকে নির্দিষ্ট ক্যাটাগরিতে ভাগ করা}
+        \item \textbf{Regression}: {\bengalifont একটি কন্টিনিউয়াস রেজাল্টকে প্রেডিক্ট করা}
+    \end{itemize}
+    \item \textbf{Unsupervised Learning}
+    \begin{itemize}
+        \item \textbf{Clusters}: {\bengalifont এক রকমের ডেটা পয়েন্টগুলোকে একসাথে গ্রুপ করা}
+        \item \textbf{Discovering latent factors}: {\bengalifont ডেটার মধ্যে লুকানো ফ্যাক্টর খুঁজে বের করা}
+        \item \textbf{Discovering graph structure}: {\bengalifont ডেটার মধ্যে বিভিন্ন সম্পর্ক খুঁজে বের করা, যেখানে ডেটাকে নোড এবং এজ দিয়ে গ্রাফ আকারে দেখানো যায়}
+        \item \textbf{Matrix completion}: {\bengalifont কোথাও ডেটা ম্যাট্রিক্সের কিছু অংশ মিসিং থাকলে, সেটা পূরণ করার চেষ্টা করা হয়}
+    \end{itemize}
+\end{itemize}
+
+
+\section{Three elements of a machine learning model}
+
+\textbf{Model = Representation + Evaluation + Optimization}\footnote{Domingos, P. A few useful things to know about machine learning. Commun. ACM. 55(10):78–87 (2012).}
+
+
+\subsection{Representation}
+
+
+Supervised Learning-{\bengalifont এর ক্ষেত্রে মডেলকে সবসময় তৈরী করতে হবে conditional probability distribution $P(y|\vec{x})$ আকারে অথবা decision function $f(x)$ হিসেবে।  এই রিপ্রেসেন্টেশন
+ক্লাসিফিকেশনের ক্ষেত্রে যদি ধরি , এই কন্ডিশনাল ডিস্ট্রিবিউশনের মাধ্যমে আমরা বের করতে পারছি কোনো ইনপুট  $f(x)$ দেয়ার পর কোন ক্লাস লেবেল y পাওয়ার সম্ভাবনা কতটুকু আছে. মেশিন লার্নিংয়ের ভাষায় এই ডিস্ট্রিবিউশনকে ক্লাসিফায়ার বলা হয়. এই সকল ক্লাসিফায়ারকে নিয়ে একসাথে যেই set তৈরি করা হয় তাকে hypothesis space বলে। }
+
+% In supervised learning, a model must be represented as a conditional probability distribution $P(y|\vec{x})$(usually we call it classifier) or a decision function $f(x)$. The set of classifiers(or decision functions) is called the hypothesis space of the model. Choosing a representation for a model is tantamount to choosing the hypothesis space that it can possibly learn. 
+
+
+
+
+
+
+
+
+
+% 1.2.2 
+\subsection{Evaluation}
+{\bengalifont
+hypothesis space এর মধ্যে থাকা, কোনটা good classifier এবং konta bad classifer sheta bujhar jonno evaluation function (objective function or risk function) ব্যবহার করা হয়। মডেল যখন ক্লাসিফায়ারদের মধ্যে পার্থক্য করতে চায়, তখন এই evaluation function একটা স্কোর বা ভ্যালু রিটার্ন করে যেটার মাধ্যমে learning algorithm determine করতে পারে কোন ক্লাসিফায়ার সবচেয়ে ভাল।}
+
+
+% 1.2.2. 1 
+\subsubsection{Loss function and risk function}
+\label{sec:Loss-function-and-risk-function}
+
+\begin{definition}
+\textbf{Loss Function}
+
+{\bengalifont হাইপোথেসিস স্পেস (hypothesis space) ডিফাইন করার পরে এভালুয়েশন (evaluation) প্রসেস এর ক্ষেত্রে প্রথম ধাপ হচ্ছে প্রত্যেক্টা ক্লাসিফায়ারে লস ফাংশন প্রয়োগ করা, যেটা নির্দেশ করবে বা বুঝাবে যে একটা ক্লাসিফায়ার এর প্রেডিকশন কতটুকু ট্রেনিং সেট এর সাথে ম্যাচ করতে পেরেছে। এক্ষেত্রে প্রতিটা প্রেডিকশনের উপর লস ফাংশন  প্রয়োগ করা হয়, লার্নিং এলগোরিদম ট্রেনিং ডাটার উপর গড় (mean) বা সম্পূর্ণ (total) লস কমিয়ে সবচেয়ে ভালো পারফর্ম করা ক্লাসিফায়ারকে খুঁজে বের করে।}
+
+
+\newline
+% {\bengalifont মোট কথা, ট্রেনিং data (x) কতটা ভালোভাবে মডেল function $f(x)$ এ fit হচ্ছে সেটা পরিমাপ করাই loss function এর কাজ। loss function এর mathematical এক্সপ্রেশন:}
+
+{\bengalifont একটা ফাংশন কত ভালভাবে ট্রেইনিং ডাটা এর উপর ফিট সেটা পরিমাপ করার জন্য একটা লস ফাংশন (loss function) সংজ্ঞায়িত করি। একটি ট্রেইনিং এক্সাম্পল (x_i, y_i)  এর জন্য ভ্যালু y_hat কে প্রেডিক্ট করতে লস হবে L(y, y_hat)}
+
+
+\begin{equation}
+    \textbf{loss function} $L:Y \times Y \rightarrow R \geq 0$  
+    % L:Y×Y→R≥0
+\end{equation}
+
+\begin{itemize}
+    \item $ Y \times Y $ : এখানে বোঝানো হচ্ছে যে লস ফাংশন সকল সম্ভাব্য label বা output এর সেট থেকে দুইটা আর্গুমেন্ট নেয়;
+    \begin{itemize}
+        \item $ y_i $: ith ট্রেনিং এক্সাম্পলের আসল (actual) লেবেল।
+        \item $\widehat{y}$ : মডেল যে প্রেডিকশন দিয়েছে। 
+    \end{itemize}
+    \item $R \geq 0$ : লস ফাংশনের আউটপুট হলো একটা নন-নেগেটিভ রিয়েল সংখ্যা (যেটা $R \geq 0$ দিয়ে প্রকাশ করা হয়)। এই সংখ্যাটা দেখায় কতটা এরর বা "লস" আছে actual বা আসল লেবেল $ y_i $  আর প্রেডিক্ট করা লেবেল $\widehat{y}$ -এর মধ্যে। আমাদের লক্ষ্য হলো এই মানটা যতটা সম্ভব কমিয়ে আনা।
+\end{itemize}
+
+% In order to measure how well a function fits the training data, a \textbf{loss function} $L:Y \times Y \rightarrow R \geq 0$ is defined. For training example $(x_i,y_i)$, the loss of predicting the value $\widehat{y}$ is $L(y_i,\widehat{y})$.
+\end{definition}
+
+% The following is some common loss functions:
+নিচে কিছু সাধারণ লস ফাংশনের উদাহরণ দেওয়া হলো:
+\begin{itemize}
+
+\item 0-1 loss function \\ $L(Y,f(X))=\mathbb{I}(Y,f(X))=\begin{cases} 1, & Y=f(X) \\ 0, & Y \neq f(X) \end{cases}$ %L(Y,f(X))=I(Y,f(X))
+
+\begin{itemize}
+    \item \mathbb{I}(Y,f(X)) : একটা ইন্ডিকেটর ফাংশন, যেখানে যদি actual লেবেল  $ y_i $  আর প্রেডিক্টেড লেবেল  $f(X)$  না মিলে, তাহলে আউটপুট হবে 1, আর মিললে আউটপুট হবে 0।
+    \item এটা খুবই সাধারণ একটা লস ফাংশন, যেটা শুধু চেক করে প্রেডিকশন ঠিক আছে নাকি ভুল, ভুলের পরিমাণ গুরুত্ব দেয় না।
+\end{itemize}
+
+\item Quadratic loss function $L(Y,f(X))=\left(Y-f(X)\right)^2$ %L(Y,f(X))=(Y−f(X))2
+\begin{itemize}
+    \item $Y−f(X)$ হলো আসল লেবেল $Y$ আর প্রেডিক্টেড লেবেল $f(X)$ এর মধ্যে পার্থক্য স্কয়ার করা হচ্ছে নেগেটিভ ভ্যালুকে পরিহার করার জন্যে। 
+    \item Mean Squared Error নামেই চেনা এই লস ফাংশন regression প্রবলেমের জন্য অনেক বেশি ব্যবহৃত হয় যেখানে আসল আর প্রেডিক্টেড ভ্যালুর মধ্যে যত বেশি পার্থক্য, তত বেশি লস
+\end{itemize}
+
+\item Absolute loss function $L(Y,f(X))=\abs{Y-f(X)}$  % L(Y,f(X))=|Y−f(X)|
+\begin{itemize}
+    \item $\abs{Y-f(X)}$  হলো আসল লেবেল $y$ এবং  আর প্রেডিক্টেড লেবেল $f(X)$ এর মধ্যে অ্যাবসোলিউট পার্থক্য।
+    \item এই ফাংশন আসল আর প্রেডিক্টেড ভ্যালুর মধ্যে সরাসরি পার্থক্য দেয়, স্কোয়ার না করে। যেসকল ক্ষেত্রে average loss বা error দেখার দরকার পড়ে সেখানে আমরা এই লস ফাংশন ব্যবহার করে থাকি 
+\end{itemize}
+\item Logarithmic loss function \\ $L(Y,P(Y|X))=-\log{P(Y|X)}$ % L(Y,P(Y∣X))=−logP(Y∣X)
+\begin{itemize}
+    \item $P(Y|X)$  হলো $X$ ইনপুট দেওয়ার পর আসল লেবেল $y$ পাওয়ার প্রেডিক্টেড প্রোবাবিলিটি।  $-\log{P(Y|X)}$ প্রেডিক্টেড প্রোবাবিলিটির লোগারিদম নিয়ে তার নেগেটিভ নেওয়া হয়, কারণ আমরা চাই high প্রোবাবিলিটি এর জন্যে যেন কম loss value আসে। 
+    \item যখন $P(Y|X)$ এর probability score low, Logarithmic loss function তখন ভুল prediction কে penalize করে; এই কারণে এই loss function classifcation প্রবলেমে ব্যবহার করা হয়। 
+\end{itemize}
+
+\end{itemize}
+
+\begin{definition}
+$R_{\mathrm{exp}}(f)$ হচ্ছে expected loss বা \textbf{risk function}; যা দ্বারা বোঝায় যে কোনো ফাংশন $f$ ব্যবহার করে প্রেডিকশন করার সময় কতটা error (loss) আশা করা যেতে পারে
+% The risk of function $f$ is defined as the expected loss of $f$:
+\begin{equation}\label{eqn:expected-loss} % Rexp(f)=E[L(Y,f(X))]= ∫ L(y,f(x))P(x,y)dxdy
+R_{\mathrm{exp}}(f)=E\left[L\left(Y,f(X)\right)\right]=\int L\left(y,f(x)\right)P(x,y)\mathrm{d}x\mathrm{d}y
+\end{equation}
+\begin{itemize}
+    \item $L\left(Y,f(X)\right)\right$ : loss function
+    \item $E[⋅]$ :  Expectation অপারেটর, probability distribution এর উপর ভিত্তি করে ফাংশনের average expected value নির্ণয় করে 
+    \item $P(x,y)$ : input data $X$ এবং তার label $Y$ joint probaility distribution, যেটা ইনপুট-আউটপুট এর সভাব্যতা বের করে 
+    \item এক্সপেক্টেড average value নির্ণয় করার জন্যে integral $\int mathrm{d}x\mathrm{d}y$ ব্যবহার করা হচ্ছে; সম্ভাব্য সকল data point  $X$ এবং $Y$ এর loss value এর average বের করছে probability distribution এর উপর ভিত্তি করে । 
+\end{itemize}
+% which is also called expected loss or \textbf{risk function}.
+\end{definition}
+
+
+\begin{definition}
+training data থেকে The risk function $R_{\mathrm{exp}}(f)$ কে অনুমান করার ফাংশন-
+% The risk function $R_{\mathrm{exp}}(f)$ can be estimated from the training data as
+\begin{equation}
+R_{\mathrm{emp}}(f)=\dfrac{1}{N}\sum\limits_{i=1}^{N} L\left(y_i,f(x_i)\right) % 
+\end{equation}
+\begin{itemize}
+    \item $R_{\mathrm{emp}}(f)$ হচ্ছে এমপিরিকাল রিস্ক বা এমপিরিকাল লস, যেটার মাধ্যমে জানা যায় একটা মডেল $f$ শুধু ট্রেনিং ডেটায় কতোটা ভালো কাজ করেছে।
+    \item গড় মান পাবার জন্যে total loss এর average বের করছি 
+    \item $L\left(y_i,f(x_i)\right)$ data পয়েন্ট $y_i,x_i$ এর উপর loss function apply করা হচ্ছে, $x_i$ যেখানে ইনপুট এবং $y_i$ হলো আসল আউটপুট, আর $f(x_i)$ হলো প্রেডিক্টেড আউটপুট।
+\end{itemize}
+এই ফাংশনকে empirical loss বা  \textbf{empirical risk}-ও বলা হয়ে থাকে.
+% which is also called empirical loss or \textbf{empirical risk}.
+\end{definition}
+
+\bengalifont{আমরা কিন্তু চাইলে আমাদের নিজেদের মতো করেও লস ফাংশন ডিফাইন করতে পারি; কিন্তু শুরুর দিকে শেখার অবস্থায় লিটারেচর থেকে থেকে একটি ব্যবহার করা আমাদের জন্য ভালো হবে। লস ফাংশন ডিফাইন করার সময় অবশ্যই কিছু বিষয় মাথায় রাখতে হবে- } \footnote{\url{http://t.cn/zTrDxLO}}
+
+% You can define your own loss function, but if you're a novice, you're probably better off using one from the literature. There are conditions that loss functions should meet\footnote{\url{http://t.cn/zTrDxLO}}:
+
+
+\begin{enumerate}
+\item \bengalifont{  মডেল যেই আসল লস(actual loss) কমানোর চেষ্টা করছে, সেই লসকে কাছাকাছি আনাই লস ফাংশনের কাজ। উদাহরণসরূপ, ক্লাসিফিকেশনের জন্য একটি সাধারণ লস ফাংশন হল জিরো-ওয়ান লস, যেটা শুধু কতগুলো ভুল ক্লাসিফিকেশন হয়েছে সেই হিসাব রাখে; একটি ভুল প্রেডিকশনের জন্য ১ এবং সঠিক প্রেডিকশনের জন্য ০ দেয়}
+
+% They should approximate the actual loss you're trying to minimize. As was said in the other answer, the standard loss functions for classification is zero-one-loss (misclassification rate) and the ones used for training classifiers are approximations of that loss.
+
+\item আমরা যেই নির্দিষ্ট অপটিমাইজেশন ব্যবহার করতে চাই তাকে অবশ্যই মানানসই হতে হবে লস ফাংশনকে অবশ্যই জন্যই জিরো-ওয়ান লস সরাসরি ব্যবহার করা হয় না, কারণ এটা গ্রেডিয়েন্ট-ভিত্তিক অপটিমাইজেশন মেথড এর সাথে কাজ করে না
+
+% The loss function should work with your intended optimization algorithm. That's why zero-one-loss is not used directly: it doesn't work with gradient-based optimization methods since it doesn't have a well-defined gradient (or even a subgradient, like the hinge loss for SVMs has).
+
+The main algorithm that optimizes the zero-one-loss directly is the old perceptron algorithm(chapter \S \ref{chap:Perceptron}).
+\end{enumerate}
+
+
+% In the hypothesis space, an evaluation function (also called objective function or risk function) is needed to distinguish good classifiers(or decision functions) from bad ones.
+
+
+
+\subsubsection{ERM and SRM}
+ERM(ERM (Empirical Risk Minimization)) এর লক্ষ্য হল প্রত্যেকটা ট্রেইনিং ডাটা থেকে প্রাপ্ত লস ফাংশনের এভারেজ ভ্যালু বের করা । এই পদ্ধতিতে আমরা হাইপথিসিস স্পেইস $𝑓$ থেকে এমন একটি ফাংশন $f$ (মডেল বা ক্লাসিফায়ার) খুঁজে পাই যা ট্রেনিং ডেটায় error-কে কমায়ে রাখে। 
+\newline
+SRM স্ট্রাকচারাল রিস্ক মূলত এম্পিরিক্যাল রিস্কের সাথে একটি অতিরিক্ত পেনাল্টি টার্ম $\lambda J(f)$ যোগ করে যখনই মডেলের কমপ্লেক্সিটি বাড়তে থাকে। এখন প্রশ্ন আসে, মডেলের কমপ্লেক্সিটি বাড়লে কি সমস্যা? এক্ষেত্রে মডেল ডেটার প্যাটার্নের পাশাপাশি অপ্রয়োজনীয় প্যাটার্নও ধরতে থাকবে জেগুলো মূলত নয়েস (noise)। পেনাল্টি টার্ম এক ধরনের ব্যালেন্স তৈরি করে যাতে মডেলটি ওভারফিট না করে। ERM এর মতো মডেল ট্রেনিং ডেটায় বেশি ফিট করার পাশাপাশি মডেলটি যেন বেশি জটিল না হয় তা নিশ্চিত SRM । 
+\begin{definition}
+
+
+ERM(Empirical risk minimization)
+\begin{equation} % 
+\min\limits _{f \in \mathcal{F}} R_{\mathrm{emp}}(f)=\min\limits _{f \in \mathcal{F}} \dfrac{1}{N}\sum\limits_{i=1}^{N} L\left(y_i,f(x_i)\right)
+\end{equation}
+
+\begin{itemize}
+    \item N সংখ্যক data থেকে প্রাপ্ত লস ভ্যালু এর অ্যাভারেজ ভ্যালু গুলোর মধ্যে মিনিমাম যেটা পাব হাইপথিসিস স্পেইস থেকে সেটা হবে $R_{\mathrm{emp}$
+\end{itemize}
+\end{definition}
+
+\begin{definition}
+Structural risk
+\begin{equation}
+R_{\mathrm{smp}}(f)=\dfrac{1}{N}\sum\limits_{i=1}^{N} L\left(y_i,f(x_i)\right) +\lambda J(f)
+\end{equation}
+\end{definition}
+\begin{itemize}
+    \item $J(f)$ এমন একটি টার্ম যা বেশি জটিল মডেলকে শাস্তি দেয় 
+    \item  $ \lambda $ দ্বারা নির্ধারিত হয় কতটুকু শাস্তি বা পেনলাইজ করা হবে কমপ্লেক্সিটি লেভেল ঠিক রাখার জন্যে 
+\end{itemize}
+
+\begin{definition}
+SRM(Structural risk minimization)
+SRM-এর লক্ষ্য হল সমস্ত সম্ভাব্য ফাংশন $F$ থেকে এমন একটি ফাংশন $f$ খুঁজে বের করা যা এম্পিরিকাল রিস্ক এবং মডেল জটিলতার সমষ্টিকে সর্বনিম্ন করে। 
+
+\begin{equation}
+\min\limits _{f \in \mathcal{F}} R_{\mathrm{srm}}(f)=\min\limits _{f \in \mathcal{F}} \dfrac{1}{N}\sum\limits_{i=1}^{N} L\left(y_i,f(x_i)\right) +\lambda J(f)
+\end{equation}
+
+
+\begin{itemize}
+    \item $R_{\mathrm{srm}}(f)$ মডেলের স্ট্রাকচারাল রিস্ক, যা এম্পিরিকাল রিস্ক এবং মডেলের জটিলতার সমন্বয়ে গঠিত।
+    \item $\dfrac{1}{N}\sum\limits_{i=1}^{N} L\left(y_i,f(x_i)\right)$ : এম্পিরিকাল রিস্ক, যা ট্রেনিং ডেটায় মডেলের পারফরম্যান্সের গড় ত্রুটি মাপা হয়।
+    \item $\lambda J(f)$ রেগুলারাইজেশন টার্ম, যা মডেলের জটিলতাকে শাস্তি দেয় এবং ওভারফিটিং এড়াতে সাহায্য করে।
+\end{itemize}
+\end{definition}
+
+
+\subsection{Optimization}
+
+মেশিন লার্নিং মডেল ডেভেলপমেন্টের সর্বশেষ ধাপ হচ্ছে অপটিমাইজেশন (gradient descent), যার মধ্যমে হাইপথিসিস স্পেইস থেকে সেরা ক্লাসিফায়ার সার্চ স্পেইস থেকে কত কার্যকরীভাবে  
+
+
+% Finally, we need a \textbf{training algorithm}(also called \textbf{learning algorithm}) to search among the classifiers in the the hypothesis space for the highest-scoring one. The choice of optimization technique is key to the \textbf{efficiency} of the model.
+
+
+\section{Some basic concepts}
+
+
+\subsection{Parametric vs non-parametric models}
+
+\textbf{প্যারামেট্রিক মডেল:} এগুলির নির্দিষ্ট সংখ্যক প্যারামিটার থাকে।  মডেলটি একবার ট্রেইনড হয়ে গেলে, প্যারামিটারগুলি নির্দিষ্ট হয়ে যায় এবং মডেলের কমপ্লেক্সিটি বাড়েনা। যেমন লিনিয়ার রিগরেশন, লজিস্টিক রিগরেশন
+
+\textbf{নন-প্যারামেট্রিক মডেল:} এক্ষেত্রে মডেলের নির্দিষ্ট সংখক প্যারামিটার থাকে এবং ডাটাসেট বৃদ্ধির সাথে সাথে মডেলের কমলেক্সিটি বা জটিলতা বাড়তে থাকে।  এগুলি আরও ফ্লেক্সিবল এবং ডেটার পরিমাণ বেশি থাকা লাগে। 
+
+\subsection{A simple non-parametric classifier: K-nearest neighbours}
+
+\subsubsection{Representation}
+
+KNN একটি নন-প্যারামেট্রিক ক্লাসিফায়ার যেখানে একটি পয়েন্টের আউটপুট হয় তার সবচেয়ে কাছের $𝑘$ টি প্রতিবেশীর সাধারণ শ্রেণী।
+\begin{equation}
+y=f(\vec{x})=\arg\min_{c}{\sum\limits_{\vec{x}_i \in N_k(\vec{x})} \mathbb{I}(y_i=c)}
+\end{equation}
+যেখানে $N_k(\vec{x})$  $k$ পয়েন্টের একটি সেট যারা  $\vec{x}$ পয়েন্টের কাছাকাছি। 
+\begin{itemize}
+    \item $N_k(\vec{x})$ হচ্ছে পয়েন্ট $X$ এর আশেপাশের $𝑘$ k-nearest neighbor
+    \item ${I}(y_i=c)$ ইন্ডিকেটর ফাংশন যদি $y_i$ c ক্লাসের মধ্যে পড়ে তবে 1 রিটার্ন করবে আর যদি না হয় তবে 0 রিটার্ন করে
+\end{itemize}
+
+Usually use \textbf{k-d tree} to accelerate the process of finding k nearest points.
+
+উদাহরণ: যদি 𝑘=3 হয় এবং x -এর সবচেয়ে কাছের 3 জন প্রতিবেশীর মধ্যে দুটি শ্রেণী 𝐴-তে এবং একটি শ্রেণী B-তে থাকে, তাহলে 𝑦-এর আউটপুট শ্রেণী 𝐴 হবে, কারণ এটি A-এর প্রতিবেশীদের মধ্যে সবচেয়ে সাধারণ।
+
+Example: If k=3 and among the 3 nearest neighbors of point x, two belong to class A and one belongs to class B, then the output class y will be A, because A is the most common class among the neighbors.
+
+\subsubsection{Evaluation}
+No training is needed.
+
+\subsubsection{Optimization}
+No training is needed.
+
+
+\subsection{Overfitting}
+
+ওভারফিটিং হয় যখন একটি মডেল ট্রেইনড ডেটাতে খুব ভালো কাজ করে কিন্তু নতুন ডেটাতে খারাপ করে। এটি খুব জটিল মডেলগুলিতে ঘটে যা ডেটার গোলমালও শিখে ফেলে।
+
+\subsection{Cross validation}
+\label{sec:Cross-validation}
+\begin{definition}
+\textbf{Cross validation}, sometimes called \emph{rotation estimation}, is a \emph{model validation} technique for assessing how the results of a statistical analysis will generalize to an independent data set\footnote{\url{http://en.wikipedia.org/wiki/Cross-validation_(statistics)}}.
+\end{definition}
+
+Common types of cross-validation:
+\begin{enumerate}
+\item K-fold cross-validation. In k-fold cross-validation, the original sample is randomly partitioned into k equal size subsamples. Of the k subsamples, a single subsample is retained as the validation data for testing the model, and the remaining k − 1 subsamples are used as training data.
+\item 2-fold cross-validation. Also, called simple cross-validation or holdout method. This is the simplest variation of k-fold cross-validation, k=2.
+\item Leave-one-out cross-validation(\emph{LOOCV}). k=M, the number of original samples.
+\end{enumerate}
+
+
+\subsection{Model selection}
+
+When we have a variety of models of different complexity (e.g., linear or logistic regression models with different degree polynomials, or KNN classifiers with different values ofK), how should we pick the right one? A natural approach is to compute the \textbf{misclassification rate} on the training set for each method.
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
